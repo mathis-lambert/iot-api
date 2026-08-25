@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+
 import { DeviceDetailView } from "@/components/devices/device-detail-view";
 import { AppShell } from "@/components/layout/app-shell";
 import { getDeviceDetails } from "@/features/devices/device.service";
@@ -18,7 +19,7 @@ export default async function DevicePage({
   const range = normalizeRange(query.range ?? null);
   const [device, samples] = await Promise.all([
     getDeviceDetails(deviceId),
-    getTelemetryForDevice(deviceId, range, 500),
+    getTelemetryForDevice(deviceId, range),
   ]);
 
   if (!device) notFound();

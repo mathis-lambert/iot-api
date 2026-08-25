@@ -1,5 +1,3 @@
-import { Activity, CheckCircle2, Server, TriangleAlert } from "lucide-react";
-
 import { DeviceSearchList } from "@/components/devices/device-search-list";
 import type { DeviceView } from "@/features/devices/device.types";
 
@@ -9,29 +7,23 @@ export function DeviceListView({ devices }: { devices: DeviceView[] }) {
   const offline = devices.filter((device) => device.status === "offline").length;
 
   return (
-    <div className="space-y-10">
-      <header className="space-y-5">
-        <p className="section-kicker t-eyebrow t-eyebrow-brand">Device inventory / live fleet</p>
-        <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
-          <div className="max-w-2xl space-y-3">
-            <h1 className="t-h1">Votre maison, en un coup d’œil.</h1>
-            <p className="t-lead">
-              Un poste de contrôle calme pour suivre les appareils connectés, leur état réseau
-              et les mesures qui remontent du terrain.
-            </p>
-          </div>
-          <p className="t-meta shrink-0">iot.mathislambert.fr / console</p>
+    <div className="space-y-8">
+      <header className="flex flex-col gap-2 border-b border-line pb-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="t-h1">Appareils</h1>
+          <p className="mt-2 text-sm text-ink-muted">État et télémétrie de votre parc connecté.</p>
         </div>
+        <p className="t-meta">{online} / {devices.length} en ligne</p>
       </header>
 
       <section
         aria-label="Résumé de la flotte"
         className="grid grid-cols-2 overflow-hidden rounded-[1.5rem] border border-line bg-line sm:grid-cols-4"
       >
-        <SummaryStat icon={Server} label="Appareils" value={devices.length} />
-        <SummaryStat icon={CheckCircle2} label="En ligne" value={online} tone="turquoise" />
-        <SummaryStat icon={TriangleAlert} label="À surveiller" value={warning} tone="saffron" />
-        <SummaryStat icon={Activity} label="Hors ligne" value={offline} tone="coral" />
+        <SummaryStat label="Total" value={devices.length} />
+        <SummaryStat label="En ligne" value={online} tone="turquoise" />
+        <SummaryStat label="À surveiller" value={warning} tone="saffron" />
+        <SummaryStat label="Hors ligne" value={offline} tone="coral" />
       </section>
 
       <DeviceSearchList devices={devices} />
@@ -40,23 +32,25 @@ export function DeviceListView({ devices }: { devices: DeviceView[] }) {
 }
 
 function SummaryStat({
-  icon: Icon,
   label,
   value,
   tone = "azure",
 }: {
-  icon: typeof Server;
   label: string;
   value: number;
   tone?: "azure" | "turquoise" | "saffron" | "coral";
 }) {
+  const toneClass = {
+    azure: "text-brand",
+    turquoise: "text-turquoise",
+    saffron: "text-saffron",
+    coral: "text-coral",
+  }[tone];
+
   return (
     <div className="bg-paper-lift px-4 py-4 sm:px-5">
-      <div className="flex items-center gap-2">
-        <Icon className={`size-4 text-${tone}`} />
-        <span className="data-label">{label}</span>
-      </div>
-      <p className="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-ink">
+      <span className="data-label">{label}</span>
+      <p className={`mt-3 font-display text-3xl font-semibold tracking-[-0.04em] ${toneClass}`}>
         {value}
       </p>
     </div>

@@ -38,12 +38,11 @@ export function LoginForm() {
   return (
     <Card className="app-card w-full max-w-sm justify-self-center">
       <CardHeader className="gap-3 p-6 sm:p-7">
-        <p className="t-eyebrow t-eyebrow-brand">Access / credentials</p>
         <CardTitle className="font-display text-2xl font-semibold tracking-[-0.03em]">
-          Ouvrir la console
+          Connexion
         </CardTitle>
         <p className="text-sm leading-relaxed text-ink-muted">
-          Authentifiez-vous pour consulter vos appareils et leur télémétrie.
+          Consultez vos appareils et leur télémétrie.
         </p>
       </CardHeader>
       <CardContent className="border-t border-line p-6 sm:p-7">
@@ -86,7 +85,7 @@ export function LoginForm() {
             </p>
           ) : null}
           <Button className="h-10 w-full rounded-full font-mono text-xs uppercase tracking-wider" disabled={pending}>
-            {pending ? "Connexion..." : "Entrer dans la console"}
+            {pending ? "Connexion..." : "Se connecter"}
           </Button>
         </form>
       </CardContent>

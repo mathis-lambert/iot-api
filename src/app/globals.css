@@ -264,10 +264,10 @@
 @layer components {
   .app-card {
     border: 1px solid var(--line);
-    border-radius: var(--r-stone);
+    border-radius: var(--r-3);
     background: var(--paper-lift);
     color: var(--ink);
-    box-shadow: var(--shadow-1);
+    box-shadow: 0 1px 0 var(--line);
   }
 
   .app-subtle-panel {
@@ -279,9 +279,9 @@
 
   .surface {
     border: 1px solid var(--line);
-    border-radius: var(--r-stone);
+    border-radius: var(--r-3);
     background: var(--paper-lift);
-    box-shadow: var(--shadow-1);
+    box-shadow: 0 1px 0 var(--line);
   }
 
   .well {
@@ -373,14 +373,13 @@
   }
 
   .lift {
-    transition: transform var(--t-2) var(--ease), box-shadow var(--t-2) var(--ease),
-      border-color var(--t-1) var(--ease);
+    transition: transform var(--t-2) var(--ease), box-shadow var(--t-2) var(--ease), border-color var(--t-1) var(--ease);
   }
 
   .lift:hover {
     border-color: var(--brand-quiet);
-    box-shadow: var(--shadow-2);
-    transform: translateY(-3px);
+    box-shadow: 0 5px 16px oklch(0.205 0.012 265 / 0.08);
+    transform: translateY(-1px);
   }
 
   .metric-pill {
@@ -388,11 +387,12 @@
     min-width: 0;
     align-items: center;
     gap: 0.5rem;
-    border: 1px solid var(--brand-quiet);
-    border-radius: 0.8rem;
-    background: var(--brand-wash);
+    border: 0;
+    border-left: 2px solid var(--brand);
+    border-radius: 0;
+    background: transparent;
     color: var(--brand);
-    padding: 0.5rem 0.7rem;
+    padding: 0.15rem 0.7rem;
   }
 
   .data-label {
@@ -414,9 +414,9 @@
 
   .search-control {
     border-color: var(--line-strong);
-    border-radius: 999px;
+    border-radius: var(--r-2);
     background: var(--paper-lift);
-    box-shadow: var(--shadow-1);
+    box-shadow: none;
   }
 
   .chart-surface {
@@ -444,8 +444,23 @@
     background: var(--paper-sink);
     color: var(--ink-muted);
   }
+
+  .status-edge-online { border-left: 3px solid var(--ink-turquoise); }
+  .status-edge-warning { border-left: 3px solid var(--ink-saffron); }
+  .status-edge-offline { border-left: 3px solid var(--line-strong); }
 }
 
 .metric-grid {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

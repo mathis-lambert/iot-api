@@ -18,25 +18,19 @@ export default async function LoginPage() {
       </div>
 
       <div className="relative mx-auto grid min-h-screen w-full max-w-6xl items-center gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[minmax(0,1fr)_25rem] lg:gap-20">
-        <section className="max-w-xl space-y-8">
+        <section className="max-w-xl space-y-7">
           <div className="flex items-center gap-3">
             <span className="grid size-12 place-items-center rounded-2 bg-brand-wash text-brand">
               <RadioTower className="size-5" />
             </span>
             <span className="t-eyebrow t-eyebrow-brand">iot.mathislambert.fr</span>
           </div>
-          <div className="space-y-5">
-            <p className="section-kicker t-eyebrow">Private device console</p>
+          <div className="space-y-4">
+            <p className="t-eyebrow">Console IoT</p>
             <h1 className="t-display">Maison connectée.</h1>
             <p className="t-lead max-w-md">
-              Appareils, mesures et état réseau dans une console privée, pensée pour rester lisible
-              quand la maison tourne déjà.
+              Connectez-vous pour consulter vos appareils, leur état et leur télémétrie.
             </p>
-          </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 border-t border-line pt-4">
-            <span className="t-meta text-turquoise">auth / protected</span>
-            <span className="t-meta">telemetry / live</span>
-            <span className="t-meta">api / internal</span>
           </div>
         </section>
 

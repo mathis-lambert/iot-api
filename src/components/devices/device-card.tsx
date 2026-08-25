@@ -14,7 +14,7 @@ export function DeviceCard({ device }: { device: DeviceView }) {
       href={`/devices/${encodeURIComponent(device.id)}`}
       className="group block no-underline"
     >
-      <Card className="app-card lift py-0">
+      <Card className={`app-card status-edge-${device.status} lift py-0`}>
         <CardContent className="grid gap-5 p-4 sm:grid-cols-[112px_1fr_auto] sm:items-center sm:p-5">
           <DeviceAvatar />
 
@@ -35,7 +35,7 @@ export function DeviceCard({ device }: { device: DeviceView }) {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-x-1 gap-y-2">
               {device.latestReadings.slice(0, 3).map((reading) => (
                 <MetricPill key={reading.key} reading={reading} compact />
               ))}

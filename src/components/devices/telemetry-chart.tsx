@@ -1,7 +1,13 @@
 "use client";
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
+
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
 import type { MetricReading, TelemetrySample } from "@/features/telemetry/telemetry.types";
 import { formatTime } from "@/lib/dates";
 
@@ -12,29 +18,42 @@ export function TelemetryChart({ samples }: { samples: TelemetrySample[] }) {
 
   if (samples.length === 0 || groups.length === 0) {
     return (
-      <div className="grid h-72 place-items-center rounded-lg border border-dashed bg-muted/40 text-sm text-muted-foreground">
+      <div className="grid h-72 place-items-center rounded-[1rem] border border-dashed border-line bg-paper-sink text-sm text-ink-muted">
         Aucune mesure sur cette période.
       </div>
     );
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {groups.map((group) => (
-        <section key={group.id} className="space-y-2">
+        <section key={group.id} className="space-y-3">
           <div className="flex items-center justify-between gap-3">
-            <h3 className="text-sm font-medium text-foreground">{group.title}</h3>
-            <p className="text-xs text-muted-foreground">{group.unitLabel}</p>
+            <div>
+              <p className="t-eyebrow t-eyebrow-brand">{group.id}</p>
+              <h3 className="mt-1 font-display text-base font-semibold text-ink">{group.title}</h3>
+            </div>
+            <p className="t-meta">{group.unitLabel}</p>
           </div>
-          <MetricLineChart samples={samples} metricKeys={group.keys} />
+          <div className="chart-surface">
+            <MetricLineChart samples={samples} metricKeys={group.keys} />
+          </div>
         </section>
       ))}
     </div>
   );
 }
 
-function MetricLineChart({ samples, metricKeys }: { samples: TelemetrySample[]; metricKeys: string[] }) {
-  const labels = new Map(samples.flatMap((sample) => sample.readings.map((reading) => [reading.key, reading.label])));
+function MetricLineChart({
+  samples,
+  metricKeys,
+}: {
+  samples: TelemetrySample[];
+  metricKeys: string[];
+}) {
+  const labels = new Map(
+    samples.flatMap((sample) => sample.readings.map((reading) => [reading.key, reading.label])),
+  );
   const config = Object.fromEntries(
     metricKeys.map((key, index) => [
       key,

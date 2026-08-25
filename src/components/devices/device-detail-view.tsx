@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, Clock3, Cpu, MapPin, Network, Settings2, ShieldCheck } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { DeviceAvatar } from "@/components/devices/device-avatar";
 import { InfoList } from "@/components/devices/info-list";
@@ -24,24 +25,23 @@ export function DeviceDetailView({
   range: TelemetryRange;
 }) {
   return (
-    <div className="space-y-8">
+    <div className="space-y-7">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <Button asChild variant="ghost" size="sm" className="-ml-2 text-ink-muted hover:bg-paper-sink hover:text-ink">
           <Link href="/">
             <ArrowLeft className="size-4" />
-            Tous les appareils
+            Appareils
           </Link>
         </Button>
-        <p className="t-meta">Device / {device.id}</p>
+        <p className="t-meta">{device.id}</p>
       </div>
 
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_21rem]">
-        <Card className="app-card">
+        <Card className={`app-card status-edge-${device.status}`}>
           <CardContent className="grid gap-6 p-5 sm:grid-cols-[7rem_1fr] sm:p-7">
             <DeviceAvatar />
             <div className="space-y-6">
               <div className="space-y-3">
-                <p className="section-kicker t-eyebrow t-eyebrow-brand">Connected node / overview</p>
                 <div className="flex flex-wrap items-center gap-3">
                   <h1 className="t-h2">{device.name}</h1>
                   <StatusBadge status={device.status} />
@@ -68,8 +68,7 @@ export function DeviceDetailView({
         </Card>
 
         <Card className="app-card">
-          <CardHeader className="gap-2">
-            <p className="t-eyebrow">Identity / trust</p>
+          <CardHeader>
             <CardTitle className="flex items-center gap-2 font-display text-lg font-semibold">
               <ShieldCheck className="size-4 text-brand" />
               Identité
@@ -91,10 +90,7 @@ export function DeviceDetailView({
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_21rem]">
         <Card className="app-card">
           <CardHeader className="gap-4 border-b border-line sm:flex sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="t-eyebrow t-eyebrow-brand">Observability / telemetry</p>
-              <CardTitle className="mt-2 font-display text-xl font-semibold">Mesures</CardTitle>
-            </div>
+            <CardTitle className="font-display text-xl font-semibold">Mesures</CardTitle>
             <RangeTabs deviceId={device.id} activeRange={range} />
           </CardHeader>
           <CardContent className="pt-5">
@@ -105,7 +101,6 @@ export function DeviceDetailView({
         <div className="space-y-5">
           <InfoCard
             icon={Network}
-            eyebrow="Connectivity / network"
             title="Réseau"
             rows={[
               ["SSID", device.network.ssid],
@@ -117,7 +112,6 @@ export function DeviceDetailView({
           />
           <InfoCard
             icon={Settings2}
-            eyebrow="Runtime / configuration"
             title="Configuration"
             rows={[
               ["Intervalle d’envoi", `${Math.round(device.config.send_interval_ms / 60_000)} min`],
@@ -132,7 +126,6 @@ export function DeviceDetailView({
       <section className="grid gap-5 lg:grid-cols-2">
         <InfoCard
           icon={Cpu}
-          eyebrow="Runtime / execution"
           title="Exécution"
           rows={[
             ["Uptime", formatDuration(device.runtime.uptime_ms)],
@@ -143,8 +136,7 @@ export function DeviceDetailView({
           ]}
         />
         <Card className="app-card">
-          <CardHeader className="gap-2">
-            <p className="t-eyebrow">Sensors / payload</p>
+          <CardHeader>
             <CardTitle className="font-display text-lg font-semibold">Capteurs</CardTitle>
           </CardHeader>
           <CardContent>
@@ -158,19 +150,16 @@ export function DeviceDetailView({
 
 function InfoCard({
   icon: Icon,
-  eyebrow,
   title,
   rows,
 }: {
   icon: typeof Network;
-  eyebrow: string;
   title: string;
-  rows: Array<[string, React.ReactNode]>;
+  rows: Array<[string, ReactNode]>;
 }) {
   return (
     <Card className="app-card">
-      <CardHeader className="gap-2">
-        <p className="t-eyebrow">{eyebrow}</p>
+      <CardHeader>
         <CardTitle className="flex items-center gap-2 font-display text-lg font-semibold">
           <Icon className="size-4 text-brand" />
           {title}

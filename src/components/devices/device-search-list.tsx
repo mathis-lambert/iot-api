@@ -11,20 +11,17 @@ export function DeviceSearchList({ devices }: { devices: DeviceView[] }) {
   const { query, setQuery, filteredDevices } = useDeviceFilter(devices);
 
   return (
-    <section aria-label="Liste des appareils" className="space-y-5">
-      <div className="flex flex-col gap-3 border-b border-line pb-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="t-eyebrow">Fleet / devices</p>
-          <p className="mt-2 text-sm text-ink-muted">
-            {filteredDevices.length} appareil{filteredDevices.length > 1 ? "s" : ""} visible
-            {filteredDevices.length > 1 ? "s" : ""}
-          </p>
-        </div>
+    <section aria-label="Liste des appareils" className="space-y-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-ink-muted">
+          {filteredDevices.length} appareil{filteredDevices.length > 1 ? "s" : ""}
+        </p>
         <div className="relative w-full sm:max-w-xs">
           <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-ink-faint" />
           <Input
             className="search-control h-10 pl-10"
-            placeholder="Rechercher un appareil"
+            placeholder="Rechercher"
+            aria-label="Rechercher un appareil"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
@@ -35,9 +32,8 @@ export function DeviceSearchList({ devices }: { devices: DeviceView[] }) {
         {filteredDevices.length > 0 ? (
           filteredDevices.map((device) => <DeviceCard key={device.id} device={device} />)
         ) : (
-          <div className="app-subtle-panel p-12 text-center">
-            <p className="font-display text-lg font-semibold text-ink">Aucun appareil trouvé.</p>
-            <p className="mt-1 text-sm text-ink-muted">Essayez un nom, un identifiant ou un lieu.</p>
+          <div className="app-subtle-panel p-10 text-center text-sm text-ink-muted">
+            Aucun appareil ne correspond à cette recherche.
           </div>
         )}
       </div>

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Lock, Mail } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -35,36 +36,57 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="app-card w-full max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-2xl">Connexion</CardTitle>
+    <Card className="app-card w-full max-w-sm justify-self-center">
+      <CardHeader className="gap-3 p-6 sm:p-7">
+        <p className="t-eyebrow t-eyebrow-brand">Access / credentials</p>
+        <CardTitle className="font-display text-2xl font-semibold tracking-[-0.03em]">
+          Ouvrir la console
+        </CardTitle>
+        <p className="text-sm leading-relaxed text-ink-muted">
+          Authentifiez-vous pour consulter vos appareils et leur télémétrie.
+        </p>
       </CardHeader>
-      <CardContent>
-        <form action={handleSubmit} className="space-y-4">
+      <CardContent className="border-t border-line p-6 sm:p-7">
+        <form action={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="data-label">
+              Email
+            </Label>
             <div className="relative">
-              <Mail className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-              <Input id="email" name="email" type="email" autoComplete="email" className="pl-9" required />
+              <Mail className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-ink-faint" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                className="h-10 rounded-2 border-line-strong bg-transparent pl-10"
+                required
+              />
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Mot de passe</Label>
+            <Label htmlFor="password" className="data-label">
+              Mot de passe
+            </Label>
             <div className="relative">
-              <Lock className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Lock className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-ink-faint" />
               <Input
                 id="password"
                 name="password"
                 type="password"
                 autoComplete="current-password"
-                className="pl-9"
+                className="h-10 rounded-2 border-line-strong bg-transparent pl-10"
                 required
               />
             </div>
           </div>
-          {error ? <p className="text-sm text-destructive">{error}</p> : null}
-          <Button className="w-full" disabled={pending}>
-            {pending ? "Connexion..." : "Entrer"}
+          {error ? (
+            <p role="alert" className="rounded-2 border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {error}
+            </p>
+          ) : null}
+          <Button className="h-10 w-full rounded-full font-mono text-xs uppercase tracking-wider" disabled={pending}>
+            {pending ? "Connexion..." : "Entrer dans la console"}
           </Button>
         </form>
       </CardContent>

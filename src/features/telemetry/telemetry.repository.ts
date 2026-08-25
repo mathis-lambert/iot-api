@@ -1,4 +1,5 @@
 import { ObjectId, type Collection } from "mongodb";
+
 import { getDb } from "@/lib/mongodb";
 import type { TelemetryDocument, TelemetrySample } from "@/features/telemetry/telemetry.types";
 
@@ -23,11 +24,10 @@ export async function findTelemetrySamples(params: {
   if (params.deviceId) filter.deviceId = params.deviceId;
   if (params.startDate) filter.receivedAt = { $gte: params.startDate };
 
-  const docs = await telemetry
-    .find(filter)
-    .sort({ receivedAt: -1 })
-    .limit(params.limit ?? 250)
-    .toArray();
+  const cursor = telemetry.find(filter).sort({ receivedAt: -1 });
+  if (params.limit !== undefined) cursor.limit(params.limit);
+
+  const docs = await cursor.toArray();
 
   return docs.reverse().map(serializeTelemetrySample);
 }
